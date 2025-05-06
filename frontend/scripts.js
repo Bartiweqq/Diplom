@@ -1,4 +1,4 @@
-var map = L.map('map').setView([55.751244, 37.618423], 10);
+var map = L.map('map').setView([45.0433, 41.9691], 12); // Ставрополь
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
@@ -15,7 +15,7 @@ function loadEvents(category = '', city = '') {
     let url = '../backend/api-events.php?category=' + encodeURIComponent(category) + '&city=' + encodeURIComponent(city);
 
     fetch(url)
-        .then(response => responpse.json())
+        .then(response => response.json())   // Была опечатка responpse.json()
         .then(events => {
             // Обновляем карту и создаём маркеры
             events.forEach(event => {
@@ -79,7 +79,6 @@ function highlightEventItem(eventId) {
 
 // Загружаем все события при первой загрузке
 loadEvents();
-
 
 // Фильтрация при отправке формы
 document.getElementById('filter-form').addEventListener('submit', function(e) {

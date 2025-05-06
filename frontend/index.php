@@ -88,6 +88,10 @@ $cities = $pdo->query("SELECT DISTINCT city FROM events WHERE city IS NOT NULL O
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="scripts.js"></script>
+<script>
+    var userInterests = <?php echo json_encode($userInterests); ?>;
+</script>
+
 
 </body>
 </html>

@@ -10,7 +10,7 @@ $sql = "SELECT e.id,
                e.description, 
                e.latitude, 
                e.longitude,
-               COALESCE(ROUND(AVG(r.rating),1), 'Нет оценок') as avg_rating
+               ROUND(AVG(r.rating),1) as avg_rating
         FROM events e
         LEFT JOIN event_reviews r ON e.id = r.event_id
         WHERE 1=1";
@@ -31,6 +31,13 @@ $sql .= " GROUP BY e.id ORDER BY e.event_date LIMIT 20";
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Подставляем "Нет оценок" если рейтинг NULL
+foreach ($events as &$event) {
+    if ($event['avg_rating'] === null) {
+        $event['avg_rating'] = 'Нет оценок';
+    }
+}
 
 header('Content-Type: application/json');
 echo json_encode($events);
